@@ -11,9 +11,20 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Character',
+            fields=[
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('characterName', models.TextField()),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('atTimeMillis', models.IntegerField(default=0)),
                 ('name', models.TextField()),
             ],
             options={
@@ -21,9 +32,19 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Media',
+            name='Film',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('wilhelmScreamCount', models.IntegerField()),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='MediaMetaData',
+            fields=[
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('title', models.TextField()),
                 ('description', models.TextField()),
             ],
@@ -32,54 +53,59 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Tag',
+            name='Person',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('text', models.TextField()),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('realName', models.TextField()),
+                ('inMedia', models.ForeignKey(to='deathtally.MediaMetaData')),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='TimeMedia',
+            name='Tag',
             fields=[
-                ('media_ptr', models.OneToOneField(to='deathtally.Media', serialize=False, primary_key=True, parent_link=True, auto_created=True)),
-                ('minutesLength', models.IntegerField()),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('text', models.TextField()),
+                ('on', models.ForeignKey(default=None, to='deathtally.MediaMetaData')),
             ],
             options={
             },
-            bases=('deathtally.media',),
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Song',
+            name='TimeInfo',
             fields=[
-                ('timemedia_ptr', models.OneToOneField(to='deathtally.TimeMedia', serialize=False, primary_key=True, parent_link=True, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('millisLength', models.IntegerField()),
             ],
             options={
             },
-            bases=('deathtally.timemedia',),
-        ),
-        migrations.CreateModel(
-            name='Film',
-            fields=[
-                ('timemedia_ptr', models.OneToOneField(to='deathtally.TimeMedia', serialize=False, primary_key=True, parent_link=True, auto_created=True)),
-                ('wilhelmScreamCount', models.IntegerField()),
-            ],
-            options={
-            },
-            bases=('deathtally.timemedia',),
+            bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='tag',
-            name='on',
-            field=models.ForeignKey(to='deathtally.Media', default=None),
+            model_name='film',
+            name='mediaMetaData',
+            field=models.ForeignKey(to='deathtally.MediaMetaData'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='film',
+            name='timeInfo',
+            field=models.ForeignKey(to='deathtally.TimeInfo'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='event',
-            name='inFilm',
-            field=models.ForeignKey(to='deathtally.TimeMedia', default=None),
+            name='inMedia',
+            field=models.ForeignKey(default=None, to='deathtally.MediaMetaData'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='character',
+            name='person',
+            field=models.ForeignKey(to='deathtally.Person'),
             preserve_default=True,
         ),
     ]

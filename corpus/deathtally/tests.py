@@ -28,5 +28,5 @@ class FilmCreateTest(TestCase):
                 )
         self.assertEqual(Film.objects.count(),1)
         new_film = Film.objects.first()
-        self.assertEqual(new_film.title,new_film_title)
+        self.assertEqual(new_film.mediaMetaData.title,new_film_title)
 
