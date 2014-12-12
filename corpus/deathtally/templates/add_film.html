@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<div>
+    <form action="/films/add" method="POST">
+        <div>
+            <label for="title">Flick Title</label>
+            <input id="title" type="text" name="title">
+        </div>    
+        <div>
+            <label for="description">Description</label>
+            <input id="description" type="text" name="description">
+        </div>
+        <div>
+            <label for="wilhelmScreamCount">Number of Wilhelm Screams</label>
+            <input id="wilhelmScreamCount" type="text" name="wilhelmScreamCount">
+        </div>
+        <div>
+            <label for="minutesLength">Length, in minutes</label>
+            <input id="minutesLength" type="text" name="minutesLength">
+        </div>
+        <div>
+            <input type="submit">
+        </div>
+        {% csrf_token %}
+    </form>
+</div>
+</body>
+</html>

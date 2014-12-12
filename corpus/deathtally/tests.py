@@ -18,7 +18,7 @@ class FilmCreateTest(TestCase):
     def test_saving_post_new_list(self):
         new_film_title = 'Happy Gilmore'
         description = 'A bumbly ex hockey player tries his hand at golf'
-        response = self.client.post('/films/new', \
+        response = self.client.post('/films/add', \
                 data = {
                     'title' : new_film_title, 
                     'description': description,
@@ -29,4 +29,4 @@ class FilmCreateTest(TestCase):
         self.assertEqual(Film.objects.count(),1)
         new_film = Film.objects.first()
         self.assertEqual(new_film.mediaMetaData.title,new_film_title)
-
+        self.assertEqual(new_film.mediaMetaData.description,description)

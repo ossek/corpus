@@ -3,5 +3,5 @@ from django.contrib import admin
 
 urlpatterns = patterns('',
         url(r'^$','deathtally.views.home_page',name='home'),
-        url(r'^films/new$','deathtally.views.new_film',name='new_film')
+        url(r'^films/add$','deathtally.views.add_film',name='add_film')
 )
