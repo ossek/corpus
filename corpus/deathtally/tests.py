@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.core.urlresolvers import resolve
 #from deathtally.models import Film
 from deathtally.models import *
+import json
 
 class HomePageTest(TestCase):
 
@@ -76,8 +77,7 @@ class DeathTallyCreateTest(TestCase):
         gameSolution =  DeathtallySolution()
         gameSolution.mediaMetaData = anaconda3.mediaMetaData
 
-        response = self.client.post('/deathtally/add', \
-                data = {
+        postdata = {
                     "ofFilm" : anaconda3.id,
                     "deaths" : [
                         {
@@ -94,7 +94,9 @@ class DeathTallyCreateTest(TestCase):
                         #},
                         ]
                     }
-        )
+
+        response = self.client.post('/deathtally/add', \
+                data = json.dumps(postdata),content_type = 'application/json' )
         
         #deaths
         solution = DeathtallySolution.objects.first()

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 #from deathtally.models import MediaMetaData
 #from deathtally.models import TimeInfo 
 from deathtally.models import *
-import ast
+import json
 
 def home_page(request):
     return render(request,'home.html')
@@ -36,39 +36,24 @@ def film_info(request):
         pass
     pass
 
+#assume we're going to get json in the post
 def add_deathtally_solution(request):
     if(request.method =="POST"):
-        rpost = request.POST
-        print("POOOOST " + str(rpost))
-        film_ = Film.objects.get(id = rpost['ofFilm'])
+        data = json.loads(bytes.decode(request.body))
+        film_ = Film.objects.get(id = data['ofFilm'])
         deathtallySolution_ = DeathtallySolution.objects.create(
             ofFilm = film_)
-        for deathInput in rpost['deaths']:
-            print("DEATH " + str(deathInput))
+        for deathInput in data['deaths']:
+            print('DEATH INPUT ' + str(deathInput))
             event_ = Event.objects.create(
                     inMedia = film_.mediaMetaData,
                     atTimeMillis = deathInput['when'])
+            character = Character.objects \
+                    .get(id=deathInput['who'])
             death_ = Death.objects.create(
                     when=event_,
-                    who=deathInput['who'])
-            #death_.who = deathInput['who']
-            #    data = {
-            #        "ofFilm" : anaconda3.id,
-            #        "deaths" : [
-            #            {
-            #                "who": murdoch.id,
-            #                "when" : 1800000
-            #            },
-            #            #{
-            #            #    "who": hammet.id,
-            #            #    "when" : 2800000
-            #            #},
-            #            #{
-            #            #    "who": hayes.id,
-            #            #    "when" : 5900000
-            #            #},
-            #            ]
-            #        }
+                    who= character,
+                    inDeathtally = deathtallySolution_)
         return render(request,'home.html',{'film_' : film_})
     return render(request,'home.html',{'film_' : film_})
 
