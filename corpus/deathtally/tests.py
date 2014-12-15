@@ -53,24 +53,23 @@ class DeathTallyCreateTest(TestCase):
         anaconda3 = Film.objects.first()
 
         #actors
-        #hassel =  Person()
-        #hassel.realName = "David Hasselhoff"
+        hassel =  Person.objects.create()
+        hassel.realName = "David Hasselhoff"
         john = Person.objects.create()
         john.realName = "John Rhys Davies"
-        #crys =  Person()
-        #crys.realName = "Crystal Allen"
+        crys =  Person.objects.create()
+        crys.realName = "Crystal Allen"
 
         #characters
-        #hammett =  Character()
-        #hammett.inMedia = anaconda3.mediaMetaData
-        #person = hassel
-        #characterName = "Markos Hammett"
-        #hayes =  Character()
-        #hayes.inMedia = anaconda3.mediaMetaData
-        #person = crys
-        #characterName = "Dr. Amanda Hayes"
-        murdoch = Character.objects.create(person = john,inMedia = anaconda3.mediaMetaData)
-        characterName = "Murdoch"
+        hammett = Character.objects.create(person = hassel,
+                inMedia = anaconda3.mediaMetaData,
+                characterName = "Markos Hammett")
+        hayes = Character.objects.create(person = crys,
+                inMedia = anaconda3.mediaMetaData,
+                characterName = 'Dr. Amanda Hayes')
+        murdoch = Character.objects.create(person = john,
+                inMedia = anaconda3.mediaMetaData,
+                characterName = 'Murdoch')
 
         ##this is the bit done by user interaction
         #make the game solution
@@ -84,14 +83,14 @@ class DeathTallyCreateTest(TestCase):
                             "who": murdoch.id,
                             "when" : 1800000
                         },
-                        #{
-                        #    "who": hammet.id,
-                        #    "when" : 2800000
-                        #},
-                        #{
-                        #    "who": hayes.id,
-                        #    "when" : 5900000
-                        #},
+                        {
+                            "who": hammett.id,
+                            "when" : 2800000
+                        },
+                        {
+                            "who": hayes.id,
+                            "when" : 5900000
+                        },
                         ]
                     }
 
@@ -100,26 +99,22 @@ class DeathTallyCreateTest(TestCase):
         
         #deaths
         solution = DeathtallySolution.objects.first()
-        murdoch_bleh = Death.objects.first()
-        #murdoch_bleh = Death.objects.get(who.characterName = "murdoch")
+
+        #murdoch_bleh = Death.objects.first()
+        murdoch_bleh = Death.objects.filter(who__characterName = "Murdoch").first()
+        print('murdoch bleh name ' + str(murdoch_bleh.who.characterName))
         self.assertEqual(murdoch_bleh.inDeathtally.id,solution.id)
         self.assertEqual(murdoch_bleh.when.atTimeMillis,1800000)
         self.assertEqual(murdoch_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
 
-        #hammet_bleh =  Death()
-        #hammet_bleh.inDeathtally = gameSolution
-        #hammet_bleh.who = hammet
-        #hammet_bleh.when =  Event()
-        #hammet_bleh.when.inMedia = anaconda3.mediaMetaData
-        #hammet_bleh.when.atTimeMillis = 2800000
-        #hammet_bleh.when.name = "ded"
+        hammett_bleh = Death.objects.get(who__characterName__contains = "Hammett")
+        self.assertEqual(hammett_bleh.inDeathtally.id,solution.id)
+        self.assertEqual(hammett_bleh.when.atTimeMillis,2800000)
+        self.assertEqual(hammett_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
 
-        #hayes_bleh =  Death()
-        #hayes_bleh.inDeathtally = gameSolution
-        #hayes_bleh.who = hayes
-        #hayes_bleh.when =  Event()
-        #hayes_bleh.when.inMedia = anaconda3.mediaMetaData
-        #hayes_bleh.when.atTimeMillis = 5900000
-        #hayes_bleh.when.name = "ded"
+        hayes_bleh = Death.objects.get(who__characterName__contains = "Hayes")
+        self.assertEqual(hayes_bleh.inDeathtally.id,solution.id)
+        self.assertEqual(hayes_bleh.when.atTimeMillis,5900000)
+        self.assertEqual(hayes_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
 
-
+        
