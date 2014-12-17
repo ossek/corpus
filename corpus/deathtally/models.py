@@ -11,6 +11,7 @@ class Film(models.Model):
     timeInfo = models.ForeignKey(TimeInfo)
     mediaMetaData = models.ForeignKey(MediaMetaData)
     wilhelmScreamCount = models.IntegerField()
+    tmdbFilmId = models.IntegerField()
 
 class Event(models.Model):
     inMedia = models.ForeignKey(MediaMetaData,default=None)
@@ -24,10 +25,15 @@ class Tag(models.Model):
 class Person(models.Model):
     realName = models.TextField()
 
+class Actor(models.Model):
+    person = models.ForeignKey(Person)
+    tmdbPersonId = models.IntegerField()
+
 class Character(models.Model):
     inMedia = models.ForeignKey(MediaMetaData)
-    person = models.ForeignKey(Person)
+    actor = models.ForeignKey(Actor)
     characterName = models.TextField()
+    tmdbCreditId = models.IntegerField()
 
 class GameInstance(models.Model):
     #associated with a bunch of players
@@ -38,12 +44,8 @@ class Player(models.Model):
     person = models.ForeignKey(Person)
     ofGame = models.ForeignKey(GameInstance)
 
-class GameSolution(models.Model):
-    mediaMetaData = models.ForeignKey(MediaMetaData)
-
 class DeathtallySolution(models.Model):
     ofFilm = models.ForeignKey(Film)
-
 
 class DeathtallyInstance(models.Model):
     pass
