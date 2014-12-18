@@ -1,60 +1,26 @@
 from django.db import models
 
-class MediaMetaData(models.Model):
-    title = models.TextField()
-    description = models.TextField()
+##essentials:
+#game solution
+# - list of actor name, death time, image of actor
+#    - ie actor name, event, event tag "death", image of actor
+# - image of film
+# - film name
 
-class TimeInfo(models.Model):
-    millisLength = models.IntegerField()
+#possible issues: if tmbd unavailable
 
-class Film(models.Model):
-    timeInfo = models.ForeignKey(TimeInfo)
-    mediaMetaData = models.ForeignKey(MediaMetaData)
-    wilhelmScreamCount = models.IntegerField()
-    tmdbFilmId = models.IntegerField()
-
-class Event(models.Model):
-    inMedia = models.ForeignKey(MediaMetaData,default=None)
-    atTimeMillis = models.IntegerField(default=0)
-    name = models.TextField()
-
-class Tag(models.Model):
-    on = models.ForeignKey(MediaMetaData,default=None)
-    text = models.TextField()
-
-class Person(models.Model):
-    realName = models.TextField()
-
-class Actor(models.Model):
-    person = models.ForeignKey(Person)
-    tmdbPersonId = models.IntegerField()
-
-class Character(models.Model):
-    inMedia = models.ForeignKey(MediaMetaData)
-    actor = models.ForeignKey(Actor)
-    characterName = models.TextField()
-    tmdbCreditId = models.IntegerField()
-
-class GameInstance(models.Model):
-    #associated with a bunch of players
-    pass
-
-class Player(models.Model):
-    name = models.CharField(max_length=50)
-    person = models.ForeignKey(Person)
-    ofGame = models.ForeignKey(GameInstance)
+#the basic pattern we are following is
+#media, event time, tag describing event
 
 class DeathtallySolution(models.Model):
-    ofFilm = models.ForeignKey(Film)
-
-class DeathtallyInstance(models.Model):
-    pass
+    filmTitle = models.TextField()
+    #URI to an image of the film's cover
+    filmImageSrc = models.TextField()
 
 class Death(models.Model):
     inDeathtally = models.ForeignKey(DeathtallySolution)
-    who = models.ForeignKey(Character)
-    when = models.ForeignKey(Event)
-
-
+    #todo: distinguishing people with the same name
+    actorname = models.TextField()
+    when = models.IntegerField(default=0)
 
     #place, thing

@@ -28,94 +28,51 @@ class DeathTallyCreateTest(TestCase):
         # to have the dependency injected
         self.garbage = 'garbage'
 
-    def test_creating_new_game_solution(self):
-        ##make the movie
-        title = "anaconda 3 deathtally"
+    def test_create_new_deathtally_solution(self):
         new_film_title = "Anaconda 3"
-        description = "Hasselhoff in the jungle"
-
-        response = self.client.post('/films/add', \
-                data = {
-                    'title' : new_film_title, 
-                    'description': description,
-                    'wilhelmScreamCount' : 15,
-                    'minutesLength' : 70,
-                    'tmdbFilmId' : 1
-                    }
-                )
-
-        anaconda3 = Film.objects.first()
-
-        #actors (don't exist yet)
-        hassel = Actor.objects.create(
-                person = Person.objects.create(realName = "David Hasselhoff"),
-                tmdbPersonId = 1)
-        crys =  Actor.objects.create(
-                person = Person.objects.create(realName = "Crystal Allen"),
-                tmdbPersonId = 2)
-        john = Actor.objects.create(
-                person = Person.objects.create(realName = "John Rhys Davies"),
-                tmdbPersonId = 3)
-
-        #characters (don't exist yet)
-        hammett = Character.objects.create(actor = hassel,
-                inMedia = anaconda3.mediaMetaData,
-                tmdbCreditId = 1,
-                characterName = "Markos Hammett")
-        hayes = Character.objects.create(actor = crys,
-                inMedia = anaconda3.mediaMetaData,
-                tmdbCreditId = 2,
-                characterName = 'Dr. Amanda Hayes')
-        murdoch = Character.objects.create(actor = john,
-                inMedia = anaconda3.mediaMetaData,
-                tmdbCreditId = 3,
-                characterName = 'Murdoch')
-
-        ##this is the bit done by user interaction
-        #make the game solution
-        gameSolution =  DeathtallySolution()
-        gameSolution.mediaMetaData = anaconda3.mediaMetaData
+        image_source = 'file:///projects/corpus_site/corpus/deathtally/content/image/cherries.jpg'
 
         postdata = {
-                    "ofFilm" : anaconda3.id,
-                    "deaths" : [
-                        {
-                            "who": hammett.id,
-                            "when" : 2800000
-                        },
-                        {
-                            "who": hayes.id,
-                            "when" : 5900000
-                        },
-                        {
-                            "who": murdoch.id,
-                            "when" : 1800000
-                        },
-                        ]
-                    }
+                'filmTitle': new_film_title,
+                'filmImageSrc': image_source,
+                'deaths': [
+                    {
+                        'actorname': 'David Hasselhoff',
+                        'when': 5900000,
+                    },
+                    {
+                        'actorname': 'John Rhys Davies',
+                        'when': 1800000,
+                    },
+                    {
+                        'actorname': 'Crystal Allen',
+                        'when': 800000,
+                    },
+                    ]
+                }
 
         response = self.client.post('/deathtally/add', \
                 data = json.dumps(postdata),content_type = 'application/json' )
-        
-        #deaths
+
         solution = DeathtallySolution.objects.first()
+        self.assertEqual(solution.filmTitle,new_film_title) 
+        self.assertEqual(solution.filmImageSrc,image_source)
 
-        #murdoch_bleh = Death.objects.first()
-        hammett_bleh = Death.objects.get(who__characterName__contains = "Hammett")
+        hammett_bleh = Death.objects.get(actorname__contains = "Hasselhoff")
         self.assertEqual(hammett_bleh.inDeathtally.id,solution.id)
-        self.assertEqual(hammett_bleh.when.atTimeMillis,2800000)
-        self.assertEqual(hammett_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
+        self.assertEqual(hammett_bleh.when,5900000)
 
-        hayes_bleh = Death.objects.get(who__characterName__contains = "Hayes")
-        self.assertEqual(hayes_bleh.inDeathtally.id,solution.id)
-        self.assertEqual(hayes_bleh.when.atTimeMillis,5900000)
-        self.assertEqual(hayes_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
-
-        murdoch_bleh = Death.objects.filter(who__characterName = "Murdoch").first()
+        murdoch_bleh = Death.objects.get(actorname__contains = "Davies")
         self.assertEqual(murdoch_bleh.inDeathtally.id,solution.id)
-        self.assertEqual(murdoch_bleh.when.atTimeMillis,1800000)
-        self.assertEqual(murdoch_bleh.when.inMedia.id,anaconda3.mediaMetaData.id)
+        self.assertEqual(murdoch_bleh.when,1800000)
 
-class test_Get_Movies_For_GameSolution_SearchResults(TestCase):
-    pass
+        hayes_bleh = Death.objects.get(actorname__contains = "Allen")
+        self.assertEqual(hayes_bleh.inDeathtally.id,solution.id)
+        self.assertEqual(hayes_bleh.when,800000)
+
+
+    # test add events
+    # event is not at a time later than the film's runtime
+    # test duplicate actor names
+
     

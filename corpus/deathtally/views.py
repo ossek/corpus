@@ -9,25 +9,6 @@ import json
 def home_page(request):
     return render(request,'home.html')
 
-def add_film(request):
-    if(request.method == "POST"):
-        media_ = MediaMetaData.objects.create( 
-            title = request.POST['title'],
-            description = request.POST['description'],
-        )
-        timeInfo_ = TimeInfo.objects.create(
-            millisLength = request.POST['minutesLength'],
-        )
-        film_ = Film.objects.create(
-            wilhelmScreamCount = request.POST['wilhelmScreamCount'],
-            mediaMetaData = media_,
-            timeInfo = timeInfo_,
-            tmdbFilmId = request.POST['tmdbFilmId']
-        )
-        return render(request,'home.html',{'film_' : film_})
-    return render(request,'add_film.html')
-
-#page that shows film and list of characters
 def deathtally_solution_index(request):
     pass
 
@@ -35,21 +16,17 @@ def deathtally_solution_index(request):
 def add_deathtally_solution(request):
     if(request.method =="POST"):
         data = json.loads(bytes.decode(request.body))
-        film_ = Film.objects.get(id = data['ofFilm'])
         deathtallySolution_ = DeathtallySolution.objects.create(
-            ofFilm = film_)
+              filmTitle = data['filmTitle'],
+              filmImageSrc = data['filmImageSrc']
+            )
         for deathInput in data['deaths']:
             print('DEATH INPUT ' + str(deathInput))
-            event_ = Event.objects.create(
-                    inMedia = film_.mediaMetaData,
-                    atTimeMillis = deathInput['when'])
-            character = Character.objects \
-                    .get(id=deathInput['who'])
             death_ = Death.objects.create(
-                    when=event_,
-                    who= character,
+                    actorname = deathInput['actorname'],
+                    when = deathInput['when'],
                     inDeathtally = deathtallySolution_)
-        return render(request,'home.html',{'film_' : film_})
-    return render(request,'home.html',{'film_' : film_})
+        return render(request,'home.html',{'deathtallySolution_' : deathtallySolution_})
+    return render(request,'home.html',{'deathtallySolution_' : deathtallySolution_})
 
 
