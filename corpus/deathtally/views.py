@@ -12,6 +12,10 @@ def home_page(request):
 def deathtally_solution_index(request):
     pass
 
+def moviesearch(request):
+    if(request.method == "GET"):
+        return render(request,'moviesearch.html')
+
 #assume we're going to get json in the post
 def add_deathtally_solution(request):
     if(request.method =="POST"):
@@ -28,5 +32,3 @@ def add_deathtally_solution(request):
                     inDeathtally = deathtallySolution_)
         return render(request,'home.html',{'deathtallySolution_' : deathtallySolution_})
     return render(request,'home.html',{'deathtallySolution_' : deathtallySolution_})
-
-

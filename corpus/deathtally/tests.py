@@ -20,6 +20,38 @@ class HomePageTest(TestCase):
         found = resolve('/')
         self.assertEqual(found.func,home_page)
 
+class DeathTallyMovieSearchTest(TestCase):
+    # gets us title and image
+    def test_movie_search_displays_html(self):
+        response = self.client.get('/deathtally/solutions/moviesearch')
+
+    #todo distinguishing film editions
+    def test_next_shows_error_message_when_no_selection(self):
+        pass
+
+    def test_next_sends_data_to_character_selection(self):
+        pass
+
+class DeathTallyCharacterSelectionTest(TestCase):
+    def test_character_selection_shows_actors(self):
+        pass
+
+    def test_next_sends_data_to_event_selection(self):
+        pass
+
+    def test_start_over_redirects_to_MovieSearch(self):
+        pass
+
+class DeathTallyEventSelectionTest(TestCase):
+    def test_shows_characters(self):
+        pass
+
+    def test_only_allows_death_once(self):
+        pass
+
+    def test_save_creates_new_solution(self):
+        pass
+
 class DeathTallyCreateTest(TestCase):
 
     def setUp(self):
@@ -27,7 +59,7 @@ class DeathTallyCreateTest(TestCase):
         # a better way to setup django view functions
         # to have the dependency injected
         self.garbage = 'garbage'
-
+    
     def test_create_new_deathtally_solution(self):
         new_film_title = "Anaconda 3"
         image_source = 'file:///projects/corpus_site/corpus/deathtally/content/image/cherries.jpg'
@@ -51,7 +83,7 @@ class DeathTallyCreateTest(TestCase):
                     ]
                 }
 
-        response = self.client.post('/deathtally/add', \
+        response = self.client.post('/deathtally/solutions/add', \
                 data = json.dumps(postdata),content_type = 'application/json' )
 
         solution = DeathtallySolution.objects.first()
