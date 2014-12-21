@@ -23,7 +23,7 @@ describe('movie search tests',function(){
     }));
 
     afterEach(function(){
-        $httpBackend.verifyNoOutstandingExpectations();
+        $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
     });
         
@@ -33,7 +33,8 @@ describe('movie search tests',function(){
         it('service is called',function(){ 
             var searchTerm = 'Anaconda 3';
             var uriEncodedSearchTerm = encodeURI(searchTerm);
-            $httpBackend.expectGET('/deathtally/movieSearch?searchTerm=' + uriEncodedSearchTerm);
+            $httpBackend.expectGET('/deathtally/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+              .respond(200);
             createController();
             $rootScope.searchTerm = searchTerm;
             $rootScope.clickSearch();
