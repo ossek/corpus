@@ -28,6 +28,6 @@ angular.module('corpus')
 
       return {
           searchByTitle: searchByTitle
-      }
+      };
     
   }]);

@@ -34,6 +34,15 @@ def getCastList(filmId):
 def getCrewList(filmId):
     return getCredits()['crew']
 
+#the content property on the returned object is the raw image data
+#in practice, could probably just use the url as img src in a page
+def getMoviePoster(posterpath):
+    configinfo = getConfigInfo()
+    firstsize = configinfo['images']['poster_sizes'][0]
+    baseurl = configinfo['images']['base_url']
+    url = '{base}/{size}/{path}'.format(base=baseurl,size=firstsize,path=posterpath)
+    return requests.get(url)
+
 def main():
     result = searchForMovieByTitle('anaconda 3')
     print(result)

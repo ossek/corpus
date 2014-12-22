@@ -22,5 +22,4 @@ class Death(models.Model):
     #todo: distinguishing people with the same name
     actorname = models.TextField()
     when = models.IntegerField(default=0)
-
     #place, thing
