@@ -84,5 +84,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
         #'/home/ossek/projects/corpus_site/corpus/corpus/static',
-        '/projects/corpus/corpus/corpus/static',
+        '/projects/corpus/corpus/static',
         )

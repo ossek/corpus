@@ -1,4 +1,4 @@
-import tmdbsimple.tmdbsimple as tmdb
+import tmdbsimple as tmdb
 import cgi
 
 #todo make a cmd line arg or lock it down somehow
