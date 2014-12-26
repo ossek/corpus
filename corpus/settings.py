@@ -26,12 +26,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 # Application definition
 
 INSTALLED_APPS = (
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,3 +82,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+        #'/home/ossek/projects/corpus_site/corpus/corpus/static',
+        '/projects/corpus/corpus/corpus/static',
+        )
