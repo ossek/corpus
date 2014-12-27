@@ -5,22 +5,32 @@ from unittest import TestCase
 
 class WhenApiGivesNoResultTest(TestCase):
 
-    @mock.patch('tmdbsimple.search.Search')
-    def test_thenEmptyArrayReturned(self,stubbedSearchClass):
+    def setUp(self):
+        patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
+        stubbedSearchClass = patcher.start()
         stubbedSearch = stubbedSearchClass.return_value
         stubbedSearch.movie.return_value = {'page': 1, 'results': [], 'total_pages': 0, 'total_results': 0} 
-        searchResult = searchByTitle('some title with no results')
+        self.addCleanup(patcher.stop)
+
+    def test_thenEmptyArrayReturned(self):
+        searchResult = searchByTitle('Pride and Prejudice')
         self.assertEqual(searchResult,[])
 
 class WhenApiReturnsResult(TestCase):
 
-    def test_thenMovieSearchResultReturned(self):
+    @mock.patch('tmdbsimple.search.Search')
+    def test_thenMovieSearchResultReturned(self,stubbedSearchClass):
+        stubbedSearch = stubbedSearchClass.return_value
+        stubbedSearch.movie.return_value = {'page': 1, 'results': [], 'total_pages': 0, 'total_results': 0} 
+        searchResult = searchByTitle('some title with no results')
         pass
 
-    def test_thenFilmTitleIsCorrect(self):
+    @mock.patch('tmdbsimple.search.Search')
+    def test_thenFilmTitleIsCorrect(self,stubbedSearchClass):
         pass
 
-    def test_thenImagePathIsCorrect(self):
+    @mock.patch('tmdbsimple.search.Search')
+    def test_thenImagePathIsCorrect(self,stubbedSearchClass):
         pass
 
 class WhenApiGivesMoreThanOneResult(TestCase):
