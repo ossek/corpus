@@ -1,14 +1,28 @@
 import tmdbsimple as tmdb
 import cgi
+from deathtally.apimodels import MovieSearchResult
 
+# todo move these to config
 tmdb.API_KEY = "66ce2159c772be3af86f05510178f54f"
+BASE_IMAGE_URL = 'https://image.tmdb.org/t/p'
 
 # shows search results.
 # single api call
-def searchForTitles(searchTerm):
+def searchByTitle(searchTerm):
     searcher = tmdb.search.Search()
-    result = searcher.movie(query=cgi.escape(titlequery),search_type="phrase")
-    pass
+    result = searcher.movie(query=cgi.escape(searchTerm),search_type="phrase")
+    resultModels = []
+    resultModels = [makeResultModel(r) for r in result['results']]
+    return resultModels
+
+def makeResultModel(tmdbFilmSearchResult):
+    resultModel = MovieSearchResult()
+    resultModel.filmTitle = tmdbFilmSearchResult['title']
+    resultModel.filmImgSrc = '{baseImageUrl}{size}{posterpath}'.format(
+            baseImageUrl=BASE_IMAGE_URL,
+            size='w96',
+            posterpath=tmdbFilmSearchResult['poster_path'])
+    return resultModel
 
 # from result of searchForMovieByTitle: result['results'][0]['id']
 # single api call
