@@ -24,7 +24,8 @@ def makeResultModel(tmdbFilmSearchResult):
     resultModel.filmTitle = tmdbFilmSearchResult['title']
     resultModel.filmImgSrc = '{baseImageUrl}/{size}{posterpath}'.format(
             baseImageUrl=BASE_IMAGE_URL,
-            size='w96',
+            #todo make image size a config setting
+            size='w92',
             posterpath=tmdbFilmSearchResult['poster_path'])
     return resultModel
 

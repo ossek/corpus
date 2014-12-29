@@ -10,5 +10,4 @@ from deathtally.service.external.tmdb.movieSearch import searchByTitle
 def movieSearch(request):
   #todo query the external tmdb api based on the 'GET' param 'searchTerm'
   results = searchByTitle(request.GET['searchTerm'])
-  serializer = MovieSearchResultSerializer(results,many=True)
-  return Response(serializer.data)
+  return Response([r.__dict__ for r in results],status=status.HTTP_200_OK)

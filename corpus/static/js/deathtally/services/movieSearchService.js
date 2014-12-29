@@ -17,6 +17,7 @@ angular.module('corpus')
 
                 return $q(function(resolve,reject){
                     var uriEncodedSearchTerm = encodeURI(searchTerm);
+                    console.log('search term ' + uriEncodedSearchTerm);
                     $http.get('/movieSearch?searchTerm=' + uriEncodedSearchTerm).
                     success(function(data,status,headers,config){
                         console.log('search method called');

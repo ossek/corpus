@@ -23,6 +23,7 @@ angular.module('corpus')
                 promise.then(function(resultData){
                     $scope.searchResults = resultData;
                     $scope.dataAvail = true;
+                    //console.log('searchResults ' + $scope.searchResults.results[0].poster_path);
                 },function(reason){
                     //todo toast
                     $scope.searchError = true;
