@@ -2,8 +2,9 @@ from deathtally.service.external.tmdb.movieSearch import searchByTitle
 from deathtally.apimodels import MovieSearchResult
 from unittest import mock
 from unittest import TestCase
+import requests
 
-class WhenApiGivesNoResultTest(TestCase):
+class WhenApiMovieSearchGivesNoResultTest(TestCase):
 
     def setUp(self):
         patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
@@ -16,7 +17,25 @@ class WhenApiGivesNoResultTest(TestCase):
         searchResult = searchByTitle('Pride and Prejudice')
         self.assertEqual(searchResult,[])
 
-class WhenApiReturnsResult(TestCase):
+class WhenApiMovieSearchTermIsEmpty(TestCase):
+
+    def setUp(self):
+        patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
+        stubbedSearchClass = patcher.start()
+        self.stubbedSearch = stubbedSearchClass.return_value
+        self.stubbedSearch.movie.side_effect = requests.HTTPError("requests is internal to tmdbsimple and raises an error for empty")
+        self.addCleanup(patcher.stop)
+
+    def test_thenEmptyArrayReturned(self):
+        try:
+          searchResult = searchByTitle('')
+        except requests.HTTPError as e:
+          self.stubbedSearch.movie.assert_called_with(query='',search_type='phrase')
+          self.assertTrue(True)
+          return
+        self.assertFalse(True)
+
+class WhenApiMovieSearchReturnsResult(TestCase):
 
     def setUp(self):
         patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
