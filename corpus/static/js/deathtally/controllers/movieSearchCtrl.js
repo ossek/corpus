@@ -15,16 +15,17 @@ angular.module('corpus')
             $scope.searchTerm = "";
             $scope.searchResults = [];
             $scope.dataAvail = false;
+            $scope.searchError = false;
 
             $scope.clickSearch = function(){
-                console.log('clicked');
+                $scope.searchError = false;
                 var promise = movieSearchService.searchByTitle($scope.searchTerm);
                 promise.then(function(resultData){
                     $scope.searchResults = resultData;
                     $scope.dataAvail = true;
-                    console.log('resolved' + resultData[0].filmTitle);
                 },function(reason){
                     //todo toast
+                    $scope.searchError = true;
                     console.log('resolved err' + reason);
                 });
             };

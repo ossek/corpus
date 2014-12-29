@@ -43,4 +43,19 @@ describe('movie search tests',function(){
 
     });
 
+    describe('when search result is not empty',function(){
+
+        it('then correct results are set on scope',function(){
+            expect(true).toBe(false);
+        });
+
+    });
+
+    describe('when search service call gives error',function(){
+        
+        it('then error is set on controller',function(){
+            expect(true).toBe(false);
+        });
+    });
+
 });

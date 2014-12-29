@@ -10,4 +10,12 @@
     text-align:center;
 }
 
+.filmSearchNoResultsContainer{
+    text-align:center;
+}
+
+.filmSearchErrorContainer {
+    text-align:center;
+}
+
 

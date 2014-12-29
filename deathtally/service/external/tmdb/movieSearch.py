@@ -12,13 +12,14 @@ def searchByTitle(searchTerm):
     searcher = tmdb.search.Search()
     result = searcher.movie(query=cgi.escape(searchTerm),search_type="phrase")
     resultModels = []
-    resultModels = [makeResultModel(r) for r in result['results']]
+    if(len(result) > 0 and 'results' in result):
+        resultModels = [makeResultModel(r) for r in result['results']]
     return resultModels
 
 def makeResultModel(tmdbFilmSearchResult):
     resultModel = MovieSearchResult()
     resultModel.filmTitle = tmdbFilmSearchResult['title']
-    resultModel.filmImgSrc = '{baseImageUrl}{size}{posterpath}'.format(
+    resultModel.filmImgSrc = '{baseImageUrl}/{size}{posterpath}'.format(
             baseImageUrl=BASE_IMAGE_URL,
             size='w96',
             posterpath=tmdbFilmSearchResult['poster_path'])
