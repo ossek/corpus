@@ -30,10 +30,9 @@ class WhenApiMovieSearchTermIsEmpty(TestCase):
         try:
           searchResult = searchByTitle('')
         except requests.HTTPError as e:
-          self.stubbedSearch.movie.assert_called_with(query='',search_type='phrase')
-          self.assertTrue(True)
+          self.fail()
           return
-        self.assertFalse(True)
+        self.assertEqual(searchResult,[])
 
 class WhenApiMovieSearchReturnsResult(TestCase):
 

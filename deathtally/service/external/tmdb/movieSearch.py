@@ -9,9 +9,12 @@ BASE_IMAGE_URL = 'https://image.tmdb.org/t/p'
 # shows search results.
 # single api call
 def searchByTitle(searchTerm):
+    strippedSearchTerm = searchTerm.strip()
+    resultModels = []
+    if(strippedSearchTerm == ''):
+        return resultModels
     searcher = tmdb.search.Search()
     result = searcher.movie(query=cgi.escape(searchTerm),search_type="phrase")
-    resultModels = []
     if(len(result) > 0 and 'results' in result):
         resultModels = [makeResultModel(r) for r in result['results']]
     return resultModels
