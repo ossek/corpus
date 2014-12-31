@@ -22,12 +22,21 @@ def searchByTitle(searchTerm):
 def makeResultModel(tmdbFilmSearchResult):
     resultModel = MovieSearchResult()
     resultModel.filmTitle = tmdbFilmSearchResult['title']
-    resultModel.filmImgSrc = '{baseImageUrl}/{size}{posterpath}'.format(
-            baseImageUrl=BASE_IMAGE_URL,
-            #todo make image size a config setting
-            size='w92',
-            posterpath=tmdbFilmSearchResult['poster_path'])
+    #todo make image size a config setting
+    size = "w92"
+    if tmdbFilmSearchResult['poster_path']:
+        resultModel.filmImgSrc = makeFilmImgUri(BASE_IMAGE_URL,size,tmdbFilmSearchResult['poster_path'])
+    else:
+        resultModel.filmImgSrc = makeFilmImgUri('/static',size,'noPoster.jpg')
     return resultModel
+
+def makeFilmImgUri(baseImgUri,imgSize,posterpath):
+    return '{baseImageUrl}/{size}{path}'.format(
+        baseImageUrl=baseImgUri,
+        size=imgSize,
+        path = posterpath)
+
+    
 
 # from result of searchForMovieByTitle: result['results'][0]['id']
 # single api call

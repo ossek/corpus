@@ -34,6 +34,32 @@ class WhenApiMovieSearchTermIsEmpty(TestCase):
           return
         self.assertEqual(searchResult,[])
 
+class WhenApiMovieSearchResultPosterPathIsNone(TestCase):
+
+    def setUp(self):
+        patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
+        stubbedSearchClass = patcher.start()
+        self.stubbedSearch = stubbedSearchClass.return_value
+        self.stubbedSearch.movie.return_value = {'page': 1, 'results': [
+             {'adult': False,
+              'backdrop_path': '/2rkwFOAjJY4BFRDa0Ri89L4pScD.jpg',
+              'id': 50553,
+              'original_title': 'Sherlock Holmes Faces Death',
+              'popularity': 0.0419040441936213,
+              'poster_path': None,
+              'release_date': '1943-09-17',
+              'title': 'Sherlock Holmes Faces Death',
+              'video': False,
+              'vote_average': 5.8,
+              'vote_count': 2}], 'total_pages': 0, 'total_results': 0} 
+        self.addCleanup(patcher.stop)
+
+    def test_thenDefaultImageUriReturned(self):
+        posterDefault = '/static/w92noPoster.jpg'
+        searchResult = searchByTitle('zbzbzbz')
+        self.assertEqual(searchResult[0].filmImgSrc,posterDefault)
+
+
 class WhenApiMovieSearchReturnsResult(TestCase):
 
     def setUp(self):
@@ -68,12 +94,11 @@ class WhenApiMovieSearchReturnsResult(TestCase):
 
     def test_thenFilmTitleIsCorrect(self):
         searchResult = searchByTitle('Sherlock')
-        print('SRC ' + searchResult[0].filmImgSrc)
         self.assertEqual(searchResult[0].filmTitle,'Sherlock Holmes Faces Death')
 
     def test_thenImagePathIsCorrect(self):
         searchResult = searchByTitle('Sherlock')
-        self.assertEqual(searchResult[0].filmImgSrc,'https://image.tmdb.org/t/p/w96/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
+        self.assertEqual(searchResult[0].filmImgSrc,'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
 
     def test_thenSameCountOfResultModelsReturned(self):
         searchResult = searchByTitle('Sherlock')
