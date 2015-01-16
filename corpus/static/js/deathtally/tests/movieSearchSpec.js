@@ -67,7 +67,15 @@ describe('movie search tests',function(){
 
     describe('when search service call gives error',function(){
         it('then error is set on controller',function(){
-            expect(true).toBe(false);
+            var searchTerm = 'Anaconda 3';
+            var uriEncodedSearchTerm = encodeURI(searchTerm);
+            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+              .respond(500);
+            createController();
+            $rootScope.searchTerm = searchTerm;
+            $rootScope.clickSearch();
+            $httpBackend.flush();
+            expect($rootScope.searchError).toBe(true);
         });
     });
 
