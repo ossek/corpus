@@ -45,7 +45,7 @@ describe('movie search tests',function(){
         it('then correct results are set on scope',function(){
             var searchTerm = 'Anaconda 3';
             var uriEncodedSearchTerm = encodeURI(searchTerm);
-            $httpBackend.expectGET('/deathtally/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm)
               .respond(200,[ {
                       title : 'Anaconda 3', 
                       filmImgSrc : 'http://www.someTmdbUrl.com/someimage_w92.jpg'
@@ -54,17 +54,18 @@ describe('movie search tests',function(){
                       title : 'Anaconda 3 Special Edition', 
                       filmImgSrc : 'http://www.someTmdbUrl.com/someimage2_w92.jpg'
                   }, ]);
+            createController();
+            $rootScope.searchTerm = searchTerm;
             $rootScope.clickSearch();
             $httpBackend.flush();
 
-            expect($controller.searchResults.length()).toBe(2);
-            expect($controller.searchResults[0].filmImgSrc).toBe('http://www.someTmdbUrl.com/someimage_w92.jpg');
-            expect($controller.searchResults[0].title).toBe('Anaconda 3');
+            expect($rootScope.searchResults.length).toBe(2);
+            expect($rootScope.searchResults[0].filmImgSrc).toBe('http://www.someTmdbUrl.com/someimage_w92.jpg');
+            expect($rootScope.searchResults[0].title).toBe('Anaconda 3');
         });
     });
 
     describe('when search service call gives error',function(){
-        
         it('then error is set on controller',function(){
             expect(true).toBe(false);
         });
