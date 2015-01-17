@@ -12,10 +12,13 @@ angular.module('corpus')
         '$scope',
         'movieSearchService',
         function ($scope,movieSearchService) {
+
             $scope.searchTerm = "";
             $scope.searchResults = [];
             $scope.dataAvail = false;
             $scope.searchError = false;
+            //var baseurl = '/
+            //var createSolutionUrl = 
 
             $scope.clickSearch = function(){
                 $scope.searchError = false;
@@ -29,5 +32,9 @@ angular.module('corpus')
                     console.log('resolved err' + reason);
                 });
             };
+            
+            //$scope.movieSelectAction = function(){
+            //    window.location.href = 
+            //})
 
         }]);

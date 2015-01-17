@@ -36,8 +36,6 @@ def makeFilmImgUri(baseImgUri,imgSize,posterpath):
         size=imgSize,
         path = posterpath)
 
-    
-
 # from result of searchForMovieByTitle: result['results'][0]['id']
 # single api call
 def getCredits(filmId):

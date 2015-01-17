@@ -47,9 +47,9 @@
     <div class="pure-u-1 filmSearchNoResultsContainer" ng-show="searchResults.length === 0 && dataAvail">
         <p>You're saying it wrong. It's Wing-gar-dium Levi-o-sa, make the 'gar' nice and long.</p>
     </div>
-    <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultContainer" ng-show="searchResults.length() > 0" ng-repeat="result in searchResults">
+    <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultContainer" ng-show="searchResults.length > 0" ng-repeat="result in searchResults">
         <div class="pure-u-1 filmSearchResult" >
-            <img class="pure-img" ng-src="{{result.filmImgSrc}}" />
+            <img class="pure-img" ng-click="movieSelectAction()" ng-src="{{result.filmImgSrc}}" />
             <p class="filmTitle">{{result.filmTitle}}</p>
         </div>
     </div>

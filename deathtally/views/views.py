@@ -16,6 +16,10 @@ def moviesearch(request):
     if(request.method == "GET"):
         return render(request,'moviesearch.html')
 
+def createsolution(request,tmdbMovieId):
+    if(request.method == "GET"):
+        return render(request,'makesolution.html',{'tmdbMovieId': tmdbMovieId})
+
 #assume we're going to get json in the post
 def add_deathtally_solution(request):
     if(request.method =="POST"):
