@@ -100,6 +100,10 @@ class WhenApiMovieSearchReturnsResult(TestCase):
         searchResult = searchByTitle('Sherlock')
         self.assertEqual(searchResult[0].filmImgSrc,'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
 
+    def test_thenTheTmdbMovieIdIsCorrect(self):
+        searchResult = searchByTitle('Sherlock')
+        self.assertEqual(searchResult[0].tmdbMovieId,50553)
+
     def test_thenSameCountOfResultModelsReturned(self):
         searchResult = searchByTitle('Sherlock')
         self.assertEqual(len(searchResult),2)
