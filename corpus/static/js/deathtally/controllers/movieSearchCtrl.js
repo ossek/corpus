@@ -17,8 +17,6 @@ angular.module('corpus')
             $scope.searchResults = [];
             $scope.dataAvail = false;
             $scope.searchError = false;
-            //var baseurl = '/
-            //var createSolutionUrl = 
 
             $scope.clickSearch = function(){
                 $scope.searchError = false;
@@ -33,8 +31,8 @@ angular.module('corpus')
                 });
             };
             
-            //$scope.movieSelectAction = function(){
-            //    window.location.href = 
-            //})
+            $scope.movieSelectAction = function(tmdbMovieId){
+                movieSearchService.redirectToCreateSolution(tmdbMovieId);
+            };
 
         }]);

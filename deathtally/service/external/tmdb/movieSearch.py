@@ -28,6 +28,7 @@ def makeResultModel(tmdbFilmSearchResult):
         resultModel.filmImgSrc = makeFilmImgUri(BASE_IMAGE_URL,size,tmdbFilmSearchResult['poster_path'])
     else:
         resultModel.filmImgSrc = makeFilmImgUri('/static',size,'noPoster.jpg')
+    resultModel.tmdbMovieId = tmdbFilmSearchResult['id']
     return resultModel
 
 def makeFilmImgUri(baseImgUri,imgSize,posterpath):

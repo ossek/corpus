@@ -12,9 +12,8 @@ angular.module('corpus')
         '$http',
         '$q',
         function ($http,$q) {
-            console.log('service');
-            function searchByTitle(searchTerm){
 
+            function searchByTitle(searchTerm){
                 return $q(function(resolve,reject){
                     var uriEncodedSearchTerm = encodeURI(searchTerm);
                     console.log('search term ' + uriEncodedSearchTerm);
@@ -29,8 +28,13 @@ angular.module('corpus')
                 });
             }
 
+            function redirectToCreateSolution(tmdbMovieId){
+                window.location.href = 'createsolution/' + tmdbMovieId;
+            }
+
             return {
-                searchByTitle: searchByTitle
+                searchByTitle: searchByTitle,
+                redirectToCreateSolution : redirectToCreateSolution,
             };
 
         }]);

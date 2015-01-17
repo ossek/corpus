@@ -49,7 +49,7 @@
     </div>
     <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultContainer" ng-show="searchResults.length > 0" ng-repeat="result in searchResults">
         <div class="pure-u-1 filmSearchResult" >
-            <img class="pure-img" ng-click="movieSelectAction()" ng-src="{{result.filmImgSrc}}" />
+            <img class="pure-img" ng-click="movieSelectAction(result.tmdbMovieId)" ng-src="{{result.filmImgSrc}}" />
             <p class="filmTitle">{{result.filmTitle}}</p>
         </div>
     </div>
