@@ -1,10 +1,11 @@
 import tmdbsimple as tmdb
 import cgi
 from deathtally.apimodels import MovieSearchResult
+from . tmdbImageUrls import makeFilmImgUri
+from . import configuration
 
-# todo move these to config
-tmdb.API_KEY = "66ce2159c772be3af86f05510178f54f"
-BASE_IMAGE_URL = 'https://image.tmdb.org/t/p'
+tmdb.API_KEY = configuration.TMDB_API_KEY
+BASE_IMAGE_URL = configuration.BASE_IMAGE_URL
 
 # shows search results.
 # single api call
@@ -30,21 +31,6 @@ def makeResultModel(tmdbFilmSearchResult):
         resultModel.filmImgSrc = makeFilmImgUri('/static',size,'noPoster.jpg')
     resultModel.tmdbMovieId = tmdbFilmSearchResult['id']
     return resultModel
-
-def makeFilmImgUri(baseImgUri,imgSize,posterpath):
-    return '{baseImageUrl}/{size}{path}'.format(
-        baseImageUrl=baseImgUri,
-        size=imgSize,
-        path = posterpath)
-
-# from result of searchForMovieByTitle: result['results'][0]['id']
-# single api call
-def getCredits(filmId):
- movie = tmdb.movies.Movies(filmId)
- return movie.credits()
-
-def getCastList(filmId):
-    return getCredits()['cast']
 
 # shows more data about an individual search result
 # single api call
