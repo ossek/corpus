@@ -17,11 +17,30 @@ class WhenGetCastGivesNoResultTest(TestCase):
         result = getCast(999)
         self.assertEqual(result,[])
 
-#'cast_id': 1,
-#                'character': 'Terri Flores',
-#                'credit_id': '52fe44edc3a36847f80b2529',
-#                'id': 16866,
-#                'name': 'Jennifer Lopez',
-#                'order': 0,
-#                'profile_path': '/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg' }
+class WhenGetCastGivesResultTest(TestCase):
+
+    def setUp(self):
+        patcher = mock.patch('tmdbsimple.movies.Movies',autospec=True)
+        stubbedMovieClass = patcher.start()
+        stubbedMovie = stubbedMovieClass.return_value
+        stubbedMovie.credits.return_value = {'cast':[
+            {
+                'cast_id': 1,
+                'character': 'Terri Flores',
+                'credit_id': '52fe44edc3a36847f80b2529',
+                'id': 16866,
+                'name': 'Jennifer Lopez',
+                'order': 0,
+                'profile_path': '/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg' 
+            }]}
+        self.addCleanup(patcher.stop)
+
+    def test_thenOneResultIsReturned(self):
+        result = getCast(1)
+        self.assertEqual(len(result),1)
+
+    def test_thenImageUrlIsCorrect(self):
+        result = getCast(1)
+        self.assertEqual(result[0]['filmImgSrc'],'https://image.tmdb.org/t/p/w92/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg')
+
 
