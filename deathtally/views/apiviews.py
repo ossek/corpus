@@ -12,4 +12,4 @@ def movieSearch(request):
 
 @api_view(['GET'])
 def movieCredits(request,tmdbMovieId):
-    return getCast(tmdbMovieId)
+    return Response(getCast(tmdbMovieId),status=status.HTTP_200_OK)
