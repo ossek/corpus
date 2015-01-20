@@ -1,14 +1,17 @@
 import tmdbsimple as tmdb
 import cgi
 from deathtally.apimodels import MovieSearchResult
-
-# todo move these to config
-tmdb.API_KEY = "66ce2159c772be3af86f05510178f54f"
-BASE_IMAGE_URL = 'https://image.tmdb.org/t/p'
+from . tmdbImageUrls import makeFilmImgUri
+from . import configuration
 
 # from result of searchForMovieByTitle: result['results'][0]['id']
 # single api call
 def getCast(filmId):
- movie = tmdb.movies.Movies(filmId)
- cast = movie.credits()['cast']
-
+    movie = tmdb.movies.Movies(filmId)
+    cast = movie.credits()['cast']
+    size = "w92"
+    for castMember in cast:
+        castMember['filmImgSrc'] = makeFilmImgUri(configuration.BASE_IMAGE_URL,
+                size,
+                castMember['profile_path'])
+    return cast

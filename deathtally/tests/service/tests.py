@@ -107,3 +107,4 @@ class WhenApiMovieSearchReturnsResult(TestCase):
     def test_thenSameCountOfResultModelsReturned(self):
         searchResult = searchByTitle('Sherlock')
         self.assertEqual(len(searchResult),2)
+
