@@ -43,4 +43,13 @@ class WhenGetCastGivesResultTest(TestCase):
         result = getCast(1)
         self.assertEqual(result[0]['filmImgSrc'],'https://image.tmdb.org/t/p/w92/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg')
 
-
+    def test_thenTmdbPropertiesAreCorrect(self):
+        result = getCast(1)
+        self.assertEqual
+        self.assertEqual(result[0]['cast_id'], 1)
+        self.assertEqual(result[0]['character'], 'Terri Flores')
+        self.assertEqual(result[0]['credit_id'], '52fe44edc3a36847f80b2529')
+        self.assertEqual(result[0]['id'], 16866)
+        self.assertEqual(result[0]['name'], 'Jennifer Lopez')
+        self.assertEqual(result[0]['order'], 0)
+        self.assertEqual(result[0]['profile_path'], '/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg' )
