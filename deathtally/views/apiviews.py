@@ -8,7 +8,7 @@ from deathtally.service.external.tmdb.movieCredits import getCast
 @api_view(['GET'])
 def movieSearch(request):
   results = searchByTitle(request.GET['searchTerm'])
-  return Response([r.__dict__ for r in results],status=status.HTTP_200_OK)
+  return Response(results,status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def movieCredits(request,tmdbMovieId):

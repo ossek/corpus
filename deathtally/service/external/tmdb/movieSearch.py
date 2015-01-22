@@ -11,14 +11,22 @@ BASE_IMAGE_URL = configuration.BASE_IMAGE_URL
 # single api call
 def searchByTitle(searchTerm):
     strippedSearchTerm = searchTerm.strip()
-    resultModels = []
+    resultModels = {}
     if(strippedSearchTerm == ''):
         return resultModels
     searcher = tmdb.search.Search()
-    result = searcher.movie(query=cgi.escape(searchTerm),search_type="phrase")
-    if(len(result) > 0 and 'results' in result):
-        resultModels = [makeResultModel(r) for r in result['results']]
-    return resultModels
+    resultModel = searcher.movie(query=cgi.escape(searchTerm),search_type="phrase")
+    for result in resultModel['results']:
+        setFilmImgSrc(result)
+    return resultModel
+
+def setFilmImgSrc(result):
+    #todo make image size a config setting
+    size = "w92"
+    if result['poster_path']:
+        result['filmImgSrc'] = makeFilmImgUri(BASE_IMAGE_URL,size,result['poster_path'])
+    else:
+        result['filmImgSrc'] = makeFilmImgUri('/static',size,'noPoster.jpg')
 
 def makeResultModel(tmdbFilmSearchResult):
     resultModel = MovieSearchResult()
@@ -31,9 +39,3 @@ def makeResultModel(tmdbFilmSearchResult):
         resultModel.filmImgSrc = makeFilmImgUri('/static',size,'noPoster.jpg')
     resultModel.tmdbMovieId = tmdbFilmSearchResult['id']
     return resultModel
-
-# shows more data about an individual search result
-# single api call
-def getFilmAndCastData(filmId):
-   movie = tmdb.movies.Movies(filmId)
-   return movie.credits()

@@ -18,7 +18,7 @@ tmdb.API_KEY = "66ce2159c772be3af86f05510178f54f"
 # 'title': 'Pride and Prejudice',
 # 'vote_average': 7.1,
 # 'vote_count': 24}
-def searchForMovieByTitle(titlequery):
+def searchForMovieByTitle(titlequery,kwargs):
     searcher = tmdb.search.Search()
     result = searcher.movie(query=cgi.escape(titlequery),search_type="phrase")
     return result

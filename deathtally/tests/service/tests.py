@@ -13,9 +13,9 @@ class WhenApiMovieSearchGivesNoResultTest(TestCase):
         stubbedSearch.movie.return_value = {'page': 1, 'results': [], 'total_pages': 0, 'total_results': 0} 
         self.addCleanup(patcher.stop)
 
-    def test_thenEmptyArrayReturned(self):
+    def test_thenEmptyResultsArrayReturned(self):
         searchResult = searchByTitle('Pride and Prejudice')
-        self.assertEqual(searchResult,[])
+        self.assertEqual(searchResult['results'],[])
 
 class WhenApiMovieSearchTermIsEmpty(TestCase):
 
@@ -32,7 +32,7 @@ class WhenApiMovieSearchTermIsEmpty(TestCase):
         except requests.HTTPError as e:
           self.fail()
           return
-        self.assertEqual(searchResult,[])
+        self.assertEqual(searchResult,{})
 
 class WhenApiMovieSearchResultPosterPathIsNone(TestCase):
 
@@ -57,7 +57,7 @@ class WhenApiMovieSearchResultPosterPathIsNone(TestCase):
     def test_thenDefaultImageUriReturned(self):
         posterDefault = '/static/w92noPoster.jpg'
         searchResult = searchByTitle('zbzbzbz')
-        self.assertEqual(searchResult[0].filmImgSrc,posterDefault)
+        self.assertEqual(searchResult['results'][0]['filmImgSrc'],posterDefault)
 
 
 class WhenApiMovieSearchReturnsResult(TestCase):
@@ -94,17 +94,18 @@ class WhenApiMovieSearchReturnsResult(TestCase):
 
     def test_thenFilmTitleIsCorrect(self):
         searchResult = searchByTitle('Sherlock')
-        self.assertEqual(searchResult[0].filmTitle,'Sherlock Holmes Faces Death')
+        self.assertEqual(searchResult['results'][0]['title'],'Sherlock Holmes Faces Death')
 
     def test_thenImagePathIsCorrect(self):
         searchResult = searchByTitle('Sherlock')
-        self.assertEqual(searchResult[0].filmImgSrc,'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
+        self.assertEqual(searchResult['results'][0]['filmImgSrc'],'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
 
     def test_thenTheTmdbMovieIdIsCorrect(self):
         searchResult = searchByTitle('Sherlock')
-        self.assertEqual(searchResult[0].tmdbMovieId,50553)
+        self.assertEqual(searchResult['results'][0]['id'],50553)
 
     def test_thenSameCountOfResultModelsReturned(self):
         searchResult = searchByTitle('Sherlock')
-        self.assertEqual(len(searchResult),2)
+        self.assertEqual(len(searchResult['results']),2)
 
+#class WhenGettingSecondPageOfMultiPageResult(self):

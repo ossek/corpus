@@ -53,3 +53,5 @@ class WhenGetCastGivesResultTest(TestCase):
         self.assertEqual(result[0]['name'], 'Jennifer Lopez')
         self.assertEqual(result[0]['order'], 0)
         self.assertEqual(result[0]['profile_path'], '/hNgmDBICnD8La2QN1Pkflh5NJqJ.jpg' )
+
+    ##todo multiple cast pages
