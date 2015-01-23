@@ -32,7 +32,7 @@ describe('movie search tests',function(){
         it('service is called',function(){ 
             var searchTerm = 'Anaconda 3';
             var uriEncodedSearchTerm = encodeURI(searchTerm);
-            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm + '&page=1')
               .respond(200);
             createController();
             $rootScope.searchTerm = searchTerm;
@@ -45,7 +45,7 @@ describe('movie search tests',function(){
         it('then correct results are set on scope',function(){
             var searchTerm = 'Anaconda 3';
             var uriEncodedSearchTerm = encodeURI(searchTerm);
-            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm + '&page=1')
               .respond(200,[ {
                       title : 'Anaconda 3', 
                       filmImgSrc : 'http://www.someTmdbUrl.com/someimage_w92.jpg'
@@ -69,7 +69,7 @@ describe('movie search tests',function(){
         it('then error is set on controller',function(){
             var searchTerm = 'Anaconda 3';
             var uriEncodedSearchTerm = encodeURI(searchTerm);
-            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm)
+            $httpBackend.expectGET('/movieSearch?searchTerm=' + uriEncodedSearchTerm + '&page=1')
               .respond(500);
             createController();
             $rootScope.searchTerm = searchTerm;

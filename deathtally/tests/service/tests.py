@@ -14,7 +14,7 @@ class WhenApiMovieSearchGivesNoResultTest(TestCase):
         self.addCleanup(patcher.stop)
 
     def test_thenEmptyResultsArrayReturned(self):
-        searchResult = searchByTitle('Pride and Prejudice')
+        searchResult = searchByTitle('Pride and Prejudice',1)
         self.assertEqual(searchResult['results'],[])
 
 class WhenApiMovieSearchTermIsEmpty(TestCase):
@@ -28,7 +28,7 @@ class WhenApiMovieSearchTermIsEmpty(TestCase):
 
     def test_thenEmptyArrayReturned(self):
         try:
-          searchResult = searchByTitle('')
+          searchResult = searchByTitle('',1)
         except requests.HTTPError as e:
           self.fail()
           return
@@ -56,7 +56,7 @@ class WhenApiMovieSearchResultPosterPathIsNone(TestCase):
 
     def test_thenDefaultImageUriReturned(self):
         posterDefault = '/static/w92noPoster.jpg'
-        searchResult = searchByTitle('zbzbzbz')
+        searchResult = searchByTitle('zbzbzbz',1)
         self.assertEqual(searchResult['results'][0]['filmImgSrc'],posterDefault)
 
 
@@ -93,19 +93,72 @@ class WhenApiMovieSearchReturnsResult(TestCase):
         self.addCleanup(patcher.stop)
 
     def test_thenFilmTitleIsCorrect(self):
-        searchResult = searchByTitle('Sherlock')
+        searchResult = searchByTitle('Sherlock',1)
         self.assertEqual(searchResult['results'][0]['title'],'Sherlock Holmes Faces Death')
 
     def test_thenImagePathIsCorrect(self):
-        searchResult = searchByTitle('Sherlock')
+        searchResult = searchByTitle('Sherlock',1)
         self.assertEqual(searchResult['results'][0]['filmImgSrc'],'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
 
     def test_thenTheTmdbMovieIdIsCorrect(self):
-        searchResult = searchByTitle('Sherlock')
+        searchResult = searchByTitle('Sherlock',1)
         self.assertEqual(searchResult['results'][0]['id'],50553)
 
     def test_thenSameCountOfResultModelsReturned(self):
-        searchResult = searchByTitle('Sherlock')
+        searchResult = searchByTitle('Sherlock',1)
         self.assertEqual(len(searchResult['results']),2)
 
-#class WhenGettingSecondPageOfMultiPageResult(self):
+
+class WhenGettingSecondPageOfMultiPageResult(TestCase):
+
+    def setUp(self):
+        patcher = mock.patch('tmdbsimple.search.Search',autospec=True)
+        stubbedSearchClass = patcher.start()
+        stubbedSearch = stubbedSearchClass.return_value
+        stubbedSearch.movie.return_value = {'page': 2, 'results': [
+             {'adult': False,
+              'backdrop_path': '/2rkwFOAjJY4BFRDa0Ri89L4pScD.jpg',
+              'id': 50553,
+              'original_title': 'Sherlock Holmes Faces Death',
+              'popularity': 0.0419040441936213,
+              'poster_path': '/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg',
+              'release_date': '1943-09-17',
+              'title': 'Sherlock Holmes Faces Death',
+              'video': False,
+              'vote_average': 5.8,
+              'vote_count': 2},
+             {'adult': False,
+              'backdrop_path': '/4MQtUsVSXJOD8MKw4I0MODVuxEd.jpg',
+              'id': 169724,
+              'original_title': 'Sherlock Holmes nevében',
+              'popularity': 0.00200072900013075,
+              'poster_path': '/1sxgIbSPoX0NLqGhWO3PYv9oGNV.jpg',
+              'release_date': '2012-01-23',
+              'title': 'Sherlock Holmes nevében',
+              'video': False,
+              'vote_average': 0.0,
+              'vote_count': 0}
+            ], 'total_pages': 2, 'total_results': 4} 
+        self.addCleanup(patcher.stop)
+
+    def test_thenFilmTitleIsCorrect(self):
+        searchResult = searchByTitle('Sherlock',2)
+        self.assertEqual(searchResult['results'][0]['title'],'Sherlock Holmes Faces Death')
+
+    def test_thenImagePathIsCorrect(self):
+        searchResult = searchByTitle('Sherlock',2)
+        self.assertEqual(searchResult['results'][0]['filmImgSrc'],'https://image.tmdb.org/t/p/w92/8ZGyC2xuDDFp1AQ1wtCvK5FGU3w.jpg')
+
+    def test_thenTheTmdbMovieIdIsCorrect(self):
+        searchResult = searchByTitle('Sherlock',2)
+        self.assertEqual(searchResult['results'][0]['id'],50553)
+
+    def test_thenSameCountOfResultModelsReturned(self):
+        searchResult = searchByTitle('Sherlock',2)
+        self.assertEqual(len(searchResult['results']),2)
+
+
+
+class WhenGettingNonExistentPageOfMultiPageResult(TestCase):
+    #check for exception
+    pass

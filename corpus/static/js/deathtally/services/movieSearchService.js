@@ -13,11 +13,11 @@ angular.module('corpus')
         '$q',
         function ($http,$q) {
 
-            function searchByTitle(searchTerm){
+            function searchByTitle(searchTerm,page){
                 return $q(function(resolve,reject){
                     var uriEncodedSearchTerm = encodeURI(searchTerm);
                     console.log('search term ' + uriEncodedSearchTerm);
-                    $http.get('/movieSearch?searchTerm=' + uriEncodedSearchTerm).
+                    $http.get('/movieSearch?searchTerm=' + uriEncodedSearchTerm + '&page=' + page).
                     success(function(data,status,headers,config){
                         console.log('search method called');
                         resolve(data);

@@ -20,7 +20,7 @@ angular.module('corpus')
 
             $scope.clickSearch = function(){
                 $scope.searchError = false;
-                var promise = movieSearchService.searchByTitle($scope.searchTerm);
+                var promise = movieSearchService.searchByTitle($scope.searchTerm,1);
                 promise.then(function(resultData){
                     $scope.searchResults = resultData;
                     $scope.dataAvail = true;
