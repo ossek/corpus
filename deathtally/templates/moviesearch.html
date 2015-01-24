@@ -54,8 +54,8 @@
                 <p class="filmTitle">{{result.title}}</p>
             </div>
         </div>
-        <div ng-show="($index+1 < page.resultData.total_pages) && !page.nextClicked" ng-click="page.nextResultPage()">
-            SHOW MORE 
+        <div class="nextResultPageButton" ng-show="($index+1 < page.resultData.total_pages) && !page.nextClicked" ng-click="page.nextResultPage()">
+            <p>SHOW MORE</p> 
         </div>
     </div>
 </div>
