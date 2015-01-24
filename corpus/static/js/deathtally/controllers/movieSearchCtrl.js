@@ -14,23 +14,38 @@ angular.module('corpus')
         function ($scope,movieSearchService) {
 
             $scope.searchTerm = "";
-            $scope.searchResults = [];
+            $scope.searchResultPages = [];
             $scope.dataAvail = false;
             $scope.searchError = false;
 
             $scope.clickSearch = function(){
                 $scope.searchError = false;
-                var promise = movieSearchService.searchByTitle($scope.searchTerm,1);
+                $scope.searchResultPages = [];
+                $scope.dataAvail = false;
+                searchByTitleAndPage($scope.searchTerm,1);
+            };
+
+            function searchByTitleAndPage(searchTerm,page){
+                var promise = movieSearchService.searchByTitle($scope.searchTerm,page);
                 promise.then(function(resultData){
-                    $scope.searchResults = resultData;
+                    console.log('wOOT');
+                    $scope.searchResultPages.push({
+                        nextClicked : false, 
+                        resultData : resultData,
+                        nextResultPage : function(){
+                            this.nextClicked = true;
+                            searchByTitleAndPage(searchTerm,page+1);
+                        }
+                    });
                     $scope.dataAvail = true;
+                    console.log('searchResultPages[0].resultData.results' + Object.keys($scope.searchResultPages[0].resultData.results));
                 },function(reason){
                     //todo toast
                     $scope.searchError = true;
                     console.log('resolved err' + reason);
                 });
-            };
-            
+            }
+
             $scope.movieSelectAction = function(tmdbMovieId){
                 movieSearchService.redirectToCreateSolution(tmdbMovieId);
             };

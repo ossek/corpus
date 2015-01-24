@@ -44,13 +44,18 @@
     <div class="pure-u-1 filmSearchErrorContainer" ng-show="searchError">
         <p>Whoops, there was a problem trying to search.</p>
     </div>
-    <div class="pure-u-1 filmSearchNoResultsContainer" ng-show="searchResults.results.length === 0 && dataAvail">
+    <div class="pure-u-1 filmSearchNoResultsContainer" ng-show="searchResultPages.length === 0 && dataAvail">
         <p>You're saying it wrong. It's Wing-gar-dium Levi-o-sa, make the 'gar' nice and long.</p>
     </div>
-    <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultContainer" ng-show="searchResults.results.length > 0" ng-repeat="result in searchResults.results">
-        <div class="pure-u-1 filmSearchResult" >
-            <img class="pure-img" ng-click="movieSelectAction(result.tmdbMovieId)" ng-src="{{result.filmImgSrc}}" />
-            <p class="filmTitle">{{result.title}}</p>
+    <div class="pure-u-1 filmSearchResultContainer" ng-repeat="page in searchResultPages">
+        <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultPageContainer" ng-show="page.resultData.results.length > 0" ng-repeat="result in page.resultData.results">
+            <div class="pure-u-1 filmSearchResult" >
+                <img class="pure-img" ng-click="movieSelectAction(result.tmdbMovieId)" ng-src="{{result.filmImgSrc}}" />
+                <p class="filmTitle">{{result.title}}</p>
+            </div>
+        </div>
+        <div ng-show="($index+1 < page.resultData.total_pages) && !page.nextClicked" ng-click="page.nextResultPage()">
+            SHOW MORE 
         </div>
     </div>
 </div>
