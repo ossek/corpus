@@ -21,16 +21,18 @@
 .filmSearchResult img {
     position:relative;
     left: 50%;
-    margin: 0 0 0 -46px;
+    margin: 0 0 0 -53px;
+    padding: 7px 7px 7px 7px;
+    cursor: pointer;
     /*this is dependent on image with being 92px*/
+}
+
+.filmSearchResult img:hover {
+    background-color: rgba(0,120,231, 1);
 }
 
 .filmSearchResult .filmTitle {
     text-align:center;
-}
-
-.filmSearchResult img {
-    cursor: pointer;
 }
 
 .nextResultPageButton {
