@@ -48,10 +48,11 @@
     <div class="pure-u-1 filmSearchNoResultsContainer" ng-show="searchResultPages.length === 0 && dataAvail">
         <p>You're saying it wrong. It's Wing-gar-dium Levi-o-sa, make the 'gar' nice and long.</p>
     </div>
-    <div class="pure-u-1 filmSearchResultContainer" ng-repeat="page in searchResultPages">
-        <div class="pure-u-1 pure-u-lg-1-5 filmSearchResultPageContainer" ng-show="page.resultData.results.length > 0" ng-repeat="result in page.resultData.results">
-            <div class="pure-u-1 filmSearchResult" >
-                <img class="pure-img" ng-click="movieSelectAction(result.tmdbMovieId)" ng-src="{{result.filmImgSrc}}" />
+    <div class="pure-u-1 filmSearchResultPageContainer" ng-repeat="page in searchResultPages">
+        <div class="pure-u-1 pure-u-md-1-5 filmSearchResultContainer" ng-show="page.resultData.results.length > 0" ng-repeat="result in page.resultData.results">
+            <div class="pure-u-1 filmSearchResult" 
+                ng-click="movieSelectAction(result.tmdbMovieId)"
+                style="background-image: url('{{result.filmImgSrc}}')">
                 <p class="filmTitle">{{result.title}}</p>
             </div>
         </div>
