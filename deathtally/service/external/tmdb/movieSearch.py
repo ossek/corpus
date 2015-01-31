@@ -22,7 +22,7 @@ def searchByTitle(searchTerm,pageNum):
 
 def setFilmImgSrc(result):
     #todo make image size a config setting
-    size = "w92"
+    size = "w154"
     if result['poster_path']:
         result['filmImgSrc'] = makeFilmImgUri(BASE_IMAGE_URL,size,result['poster_path'])
     else:
