@@ -28,7 +28,6 @@ angular.module('corpus')
             function searchByTitleAndPage(searchTerm,page){
                 var promise = movieSearchService.searchByTitle($scope.searchTerm,page);
                 promise.then(function(resultData){
-                    console.log('wOOT');
                     $scope.searchResultPages.push({
                         nextClicked : false, 
                         resultData : resultData,
@@ -38,7 +37,6 @@ angular.module('corpus')
                         }
                     });
                     $scope.dataAvail = true;
-                    console.log('searchResultPages[0].resultData.results' + Object.keys($scope.searchResultPages[0].resultData.results));
                 },function(reason){
                     //todo toast
                     $scope.searchError = true;

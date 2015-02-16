@@ -8,5 +8,6 @@ urlpatterns = patterns('',
         url(r'^deathtally/solutions/moviesearch$','deathtally.views.views.moviesearch',name='moviesearch'),
         url(r'^deathtally/solutions/createsolution/(\d+)/$','deathtally.views.views.createsolution',name='createsolution'),
         url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-        url(r'^movieSearch/$', apiviews.movieSearch)
+        url(r'^movieSearch/$', apiviews.movieSearch),
+        url(r'^movie/(\d+)/credits$', apiviews.movieCredits)
 )
