@@ -51,7 +51,7 @@
     <div class="pure-u-1 filmSearchResultPageContainer" ng-repeat="page in searchResultPages">
         <div class="pure-u-1 pure-u-md-1-5 filmSearchResultContainer" ng-show="page.resultData.results.length > 0" ng-repeat="result in page.resultData.results">
             <div class="filmSearchResult" 
-                ng-click="movieSelectAction(result.tmdbMovieId)">
+                ng-click="movieSelectAction(result.id)">
                 <div class="filmSearchImage" style="background-image: url('{{result.filmImgSrc}}')">
                 </div>
                 <div class="filmTitleContainer">
