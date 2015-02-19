@@ -10,6 +10,7 @@
  */
 angular
   .module('corpus', [
+          'mm.foundation'
     //'ngAnimate',
     //'ngCookies',
     //'ngResource',
