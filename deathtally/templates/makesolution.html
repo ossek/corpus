@@ -12,9 +12,12 @@
 <link rel="stylesheet" href="{% static 'css/site.css' %}" type="text/css" charset="utf-8" />
 <script src="{% static 'js/node_modules/angular/angular.js' %}" type="text/javascript" ></script>
 <script src="{% static 'bower_components/angular-foundation/mm-foundation-tpls.js' %}" type="text/javascript" ></script>
+<script src="{% static 'js/node_modules/jquery/dist/jquery.min.js' %}" type="text/javascript" ></script>
+<script src="{% static 'css/foundation-5/js/foundation.min.js' %}" type="text/javascript" ></script>
+<script src="{% static 'css/foundation-5/js/foundation/foundation.slider.js' %}" type="text/javascript" ></script>
 <script src="{% static 'js/angular/app.js' %}" type="text/javascript" ></script>
 <script src="{% static 'js/deathtally/services/makeSolutionService.js' %}" type="text/javascript" ></script>
-<!-- <script src="{% static 'js/deathtally/controllers/deathTimeSelectCtrl.js' %}" type="text/javascript" ></script> -->
+<!--<script src="{% static 'js/deathtally/controllers/deathTimeSelectCtrl.js' %}" type="text/javascript" ></script>-->
 <script src="{% static 'js/deathtally/controllers/makeSolutionCtrl.js' %}" type="text/javascript" ></script>
 </head>
 <body>
@@ -36,6 +39,10 @@
         </div>
     </div>
 </div>
+<script>
+$(document).foundation();
+console.log("this ran ");
+</script> 
 {% endverbatim %}
 </body>
 </html>

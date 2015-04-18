@@ -59,4 +59,24 @@
     color:rgba(255,255,255,1);
 }
 
+/*div.event-select div.input-row,
+div.event-select div.slider-row {
+    display: block !important;
+    height: 50%;
+    float: left;
+}*/
+div.time-select-modal {
+    height: 100%;
+}
+
+div.event-select {
+    height: 100%;
+}
+
+div.event-select div.input-row,
+div.event-select div.slider-row {
+    height: 50%;
+}
+
+
 

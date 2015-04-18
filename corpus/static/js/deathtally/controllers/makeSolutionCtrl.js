@@ -5,7 +5,8 @@ angular.module('corpus')
         '$modal',
         'makeSolutionService',
         '$templateCache',
-        function ($scope,$modal,makeSolutionService,$templateCache) {
+        '$document',
+        function ($scope,$modal,makeSolutionService,$templateCache,$document) {
             var movieIdUrlPart = /(.*)\/(\d+)\/$/;
             var found = window.location.href.match(movieIdUrlPart);
             var tmdbMovieId = found[2];
@@ -23,18 +24,30 @@ angular.module('corpus')
                 });
 
             var templateStr = 
-              ' <div class="pure-g" > ' + 
-              '     <div class="pure-u-1 pure-u-lg-1-3 characterContainer"> ' + 
-              '       <img class="characterImage" src="{{castMember.filmImgSrc}}" > ' + 
-              '       <p>{{castMember.character}}</p> ' + 
-              '     </div> ' + 
-              '     <div class="pure-u-1 pure-u-lg-2-3 timeSelectContainer"> ' + 
-              '       <input type="range"> ' + 
-              '     </div> ' + 
-              ' </div> ';
+                '<div id="bbq" class="pure-g time-select-modal" >   ' + 
+                '  <div class="pure-u-1 pure-u-lg-1-3 characterContainer">   ' + 
+                '      <img class="characterImage" src="https://image.tmdb.org/t/p/w92/gSBxQWda0T67hrK3pNyqreRYoyw.jpg" >   ' + 
+                '      <p>GUY</p>   ' + 
+                '  </div>   ' + 
+                '  <div class="pure-u-1 pure-u-lg-2-3 event-select">' + 
+                '      <div class="pure-u-1 input-row">' + 
+                '          <div class="pure-u-1-5 input-container">' + 
+                '              <input id="sliderOutput3" class="event-select-slider" type="text">' + 
+                '          </div>' + 
+                '      </div>            ' + 
+                '      <div class="pure-u-1 slider-row" >   ' + 
+                '          <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3; start: 1; end: 344;" >' + 
+                '              <span class="range-slider-handle" role="slider" tabindex="0"></span>' + 
+                '              <span class="range-slider-active-segment"></span>' + 
+                '              <input type="hidden">' + 
+                '          </div>' + 
+                '      </div>' + 
+                '  </div>   ' + 
+                ' </div>    ' ;
             $templateCache.put('tpl.html',templateStr);
 
             $scope.modalDeathTimeSelect = function(castMember){
+                jQuery(document).foundation();
                 var modalInstance = $modal.open({
                     templateUrl : "tpl.html",
                     controller : 'deathTimeSelectCtrl',
@@ -44,17 +57,28 @@ angular.module('corpus')
                         }
                     },
                 });
+
+                modalInstance.opened.then(
+                        function(somebool){
+                            //Do this in this janky way because the 'opened' callback does not wait for the
+                            //newly loaded template to be ready, and we need to wait until it's ready 
+                            //to init the slider.
+                            var elt = $document.find("#bbq"); 
+                            elt.ready(function(){
+                              jQuery("#bbq").foundation();
+                            });
+                        });
+
                 modalInstance.result.then(
-                  function(modalData){
-                      console.log('modal resolved');
-                  },
-                  function(){
-                      console.log('modal dismissed ');
-                  }
-                );
+                        function(modalData){
+                            console.log('modal resolved');
+                        },
+                        function(){
+                            console.log('modal dismissed ');
+                        });
             };
 
-            
+
         }]);
 
 angular.module('corpus')
@@ -63,7 +87,6 @@ angular.module('corpus')
         '$modalInstance',
         'modalData', 
         function($scope,$modalInstance,modalData){
-
             var resolvedData = 'b';
 
             $scope.castMember = modalData.castMember;
