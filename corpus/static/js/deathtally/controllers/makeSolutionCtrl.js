@@ -26,8 +26,9 @@ angular.module('corpus')
             var templateStr = 
                 '<div id="bbq" class="pure-g time-select-modal" >   ' + 
                 '  <div class="pure-u-1 pure-u-lg-1-3 characterContainer">   ' + 
-                '      <img class="characterImage" src="https://image.tmdb.org/t/p/w92/gSBxQWda0T67hrK3pNyqreRYoyw.jpg" >   ' + 
-                '      <p>GUY</p>   ' + 
+                '      <img class="characterImage" src={{castMember.filmImgSrc}} >   ' + 
+                '      <p class="characterName">{{castMember.character}}</p>' + 
+                '      <p class="actorName">{{castMember.name}}</p>' + 
                 '  </div>   ' + 
                 '  <div class="pure-u-1 pure-u-lg-2-3 event-select">' + 
                 '      <div class="pure-u-1 input-row">' + 
