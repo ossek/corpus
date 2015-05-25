@@ -11,17 +11,29 @@ angular.module('corpus')
             var found = window.location.href.match(movieIdUrlPart);
             var tmdbMovieId = found[2];
 
-            var promise = makeSolutionService.getCreditsForMovie(tmdbMovieId);
-            promise.then(
+            makeSolutionService.getCreditsForMovie(tmdbMovieId)
+            .then(
                 function(resultData){
                     $scope.cast = resultData;
-                    console.log($scope.cast[0]);
                 },
                 function(err){
                     //todo toast 
                     $scope.getCastError = true;
                     console.log('there has been a problem ' + err);
                 });
+
+            makeSolutionService.getMovieInfo(tmdbMovieId)
+            .then(
+                function(resultData){
+                    $scope.movieInfo = resultData;
+                },
+                function(err){
+                    //todo toast 
+                    $scope.getMovieInfoError = true;
+                    console.log('there has been a problem ' + err);
+                });
+
+
 
             var templateStr = 
                 '<div id="bbq" class="pure-g time-select-modal" >   ' + 
@@ -37,7 +49,7 @@ angular.module('corpus')
                 '          </div>' + 
                 '      </div>            ' + 
                 '      <div class="pure-u-1 slider-row" >   ' + 
-                '          <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3; start: 1; end: 344;" >' + 
+                '          <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3; start: 1; end: {{runtime}};" >' + 
                 '              <span class="range-slider-handle" role="slider" tabindex="0"></span>' + 
                 '              <span class="range-slider-active-segment"></span>' + 
                 '              <input type="hidden">' + 
@@ -47,14 +59,16 @@ angular.module('corpus')
                 ' </div>    ' ;
             $templateCache.put('tpl.html',templateStr);
 
-            $scope.modalDeathTimeSelect = function(castMember){
+            $scope.modalDeathTimeSelect = function(castMember,runtime){
                 jQuery(document).foundation();
                 var modalInstance = $modal.open({
                     templateUrl : "tpl.html",
                     controller : 'deathTimeSelectCtrl',
                     resolve : {
                         modalData : function(){
-                            return  {castMember : castMember} ;
+                            return  {
+                                castMember : castMember,
+                                runtime : runtime} ;
                         }
                     },
                 });
@@ -72,10 +86,9 @@ angular.module('corpus')
 
                 modalInstance.result.then(
                         function(modalData){
-                            console.log('modal resolved');
+                            //todo call back into service to store death time
                         },
                         function(){
-                            console.log('modal dismissed ');
                         });
             };
 
@@ -91,6 +104,7 @@ angular.module('corpus')
             var resolvedData = 'b';
 
             $scope.castMember = modalData.castMember;
+            $scope.runtime = modalData.runtime;
 
             $scope.ok = function() {
                 $modalInstance.close(resolvedData);

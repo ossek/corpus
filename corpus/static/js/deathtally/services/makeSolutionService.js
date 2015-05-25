@@ -17,7 +17,22 @@ angular.module('corpus')
                  });
             }
 
+            function getMovieInfo(tmdbMovieId){
+                return $q(function(resolve,reject){
+                  $http.get('/movie/' + tmdbMovieId + '/info').
+                    success(function(data,status,headers,config){
+                        resolve(data);
+                    }).
+                    error(function(data,status,headers,config){
+                        reject(data);
+                    });
+                 });
+            }
+
+
+
             return {
                 getCreditsForMovie : getCreditsForMovie,
+                getMovieInfo : getMovieInfo,
             };
         }]);

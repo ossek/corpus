@@ -15,3 +15,7 @@ def getCast(filmId):
                 size,
                 castMember['profile_path'])
     return cast
+
+def getMovieInfo(filmId):
+    movie = tmdb.movies.Movies(filmId)
+    return movie.info()

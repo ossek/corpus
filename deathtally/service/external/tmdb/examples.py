@@ -24,6 +24,10 @@ def searchForMovieByTitle(titlequery,kwargs):
     return result
 
 #from result of searchForMovieByTitle: result['results'][0]['id']
+def getMove(filmId):
+    movie = tmdb.movies.Movies(filmId)
+    return movie
+
 def getCredits(filmId):
     movie = tmdb.movies.Movies(filmId)
     return movie.credits()
